@@ -45,6 +45,8 @@ A binary image classifier (**cat** vs **dog**) built with **TensorFlow/Keras tra
 | `docs/MODEL_CONTRACT.md` | **Source of truth** for the model interface (contract version 1.0.0) | new |
 | `docs/MODEL_RELEASE.md` | Release process: A/B/C types, checklist, verification script, release note template | new |
 | `release/v1.0.0/` | First published model release, read by apps (never modified after publishing) | new |
+| `src/evaluation.py` | Reusable per-class evaluation: `load_test_dataset` (`shuffle=False`), `collect_predictions`, `confusion_matrix`, `per_class_report`, `check_release_targets`, `plot_confusion_matrix` (NumPy + TensorFlow only) | new |
+| `ModelEvaluation.ipynb` | Loads the saved `.keras` model and shows per-class table, balance summary, confusion matrix and release gate; no training | new |
 | `handoff/kmp-app/` | Starter files for the KMP app project; the user moves them out | new, not committed |
 | `CLASSIFIER CAT DOG USING TRANSFER L.txt` | Personal notes and links. **Contains the real Kaggle token** (see §8) | **yes, committed** |
 
@@ -87,7 +89,13 @@ A binary image classifier (**cat** vs **dog**) built with **TensorFlow/Keras tra
 
 \* Row 0's test metrics were run in an earlier kernel state, before the MobileNet model shown with them was built, so they don't belong to any model above.
 
-- **Best model:** **6b**, test accuracy 0.9435, about 64 dogs predicted as cats and 49 cats predicted as dogs.
+- **Best model:** **6b** (release v1.0.0), test accuracy 0.9435 in the training notebook's GPU run.
+- **Per-class results for 6b** (`ModelEvaluation.ipynb`, CPU, 2026-09-13):
+  - **cats** 951/1000 = **95.1%** (±1.34 points), precision 0.9379, F1 0.9444;
+  - **dogs** 937/1000 = **93.7%** (±1.51 points), precision 0.9503, F1 0.9436;
+  - accuracy and balanced accuracy 0.9440, confusion matrix `[[951, 49], [63, 937]]`;
+  - gap 1.4 points, noise ±2.0 points: **not significant, classes are balanced.** Release gate PASS.
+  - The GPU run had 936 dogs correct; one borderline image differs between CPU and GPU.
 - **`dog.png`:** 0.9923, predicted dog.
 
 ## 7. Key findings (don't repeat these mistakes)

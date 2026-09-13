@@ -102,6 +102,7 @@ Details and all past runs are in [CONTEXT.md](../../Documents/ai/classification/
   - **C: runtime change**, MINOR version.
 - **Each release is published in `release/vX.Y.Z/`,** with model files, reference images, a contract snapshot and `RELEASE_NOTES.md`. Never modify a published release; fixes go in a new version.
 - **Update [docs/MODEL_CONTRACT.md](../../Documents/ai/classification/cat_dogs/docs/MODEL_CONTRACT.md) and the CONTEXT.md results history** with every release.
+- **Per-class evaluation is part of the quality gate:** run `ModelEvaluation.ipynb` (logic in `src/evaluation.py`) for every candidate model. Targets: each class recall ≥ 0.93, gap ≤ 0.03, no class drop > 0.01 vs the previous release, balanced test set. Build evaluation datasets with `shuffle=False` so labels and predictions stay aligned.
 - **Claude memories are never moved between projects.** Anything the app side needs goes into the contract or release notes.
 
 ## Conventions

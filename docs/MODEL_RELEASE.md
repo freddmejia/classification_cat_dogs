@@ -22,9 +22,16 @@ A change that is both B and C is released as **B** (MAJOR); list the runtime cha
 
 1. **Clean run:** Kernel → Restart Kernel and Run All Cells, then confirm execution counts increase from top to bottom.
 2. **Quality gate:**
-   - Record test precision, recall and accuracy, and the best val_loss.
-   - Compare with the current release: accuracy 0.9435, precision 0.9503, recall 0.936.
-   - Don't release a worse model unless there's a stated reason (for example, smaller or faster).
+   - **Run `ModelEvaluation.ipynb`** on the new model. Logic is in `src/evaluation.py`. Set `MODEL_PATH`, and set `PREVIOUS = {"cats": 0.951, "dogs": 0.937}` to compare with the current release.
+   - **Record** test precision, recall and accuracy, the best val_loss, and the per-class table.
+   - **Class-balance targets** (all must pass; the notebook prints `RELEASE GATE: PASS` or `FAIL`):
+     - each class recall (per-class accuracy) ≥ **0.93**;
+     - gap between the two class recalls ≤ **0.03**;
+     - no class recall drops more than **0.01** vs the previous release;
+     - test set balance (smallest / largest class) ≥ **0.9**.
+   - **If `gap significant` is `True`, investigate before releasing,** even when the gap is within 0.03.
+   - **Current release v1.0.0** (measured with `ModelEvaluation.ipynb` on CPU): accuracy 0.9440, cats recall 0.951 (951/1000), dogs recall 0.937 (937/1000), gap 0.014 (noise ±0.020), dog precision 0.9503. The training notebook's GPU run gave 0.9435 / 936 dogs; one borderline image differs between CPU and GPU.
+   - **Don't release a worse model** unless there's a stated reason (for example, smaller or faster).
 3. **Export,** with the version in the file names:
    - `cat_dog_vX.Y.Z.keras`
    - `cat_dog_vX.Y.Z.tflite`
@@ -113,6 +120,26 @@ PY
 | Precision | | |
 | Recall | | |
 | Best val_loss | | |
+
+## Per-class results (ModelEvaluation.ipynb)
+| Class | Support | Correct | Recall (per-class accuracy) | 95% range | Precision | F1 |
+|---|---|---|---|---|---|---|
+| cats | | | | | | |
+| dogs | | | | | | |
+
+- Balanced accuracy:
+- Macro F1:
+- Gap between classes: (noise range: , significant: )
+- Confusion matrix: cats→dogs , dogs→cats
+
+| Release gate rule | Value | Limit | Result |
+|---|---|---|---|
+| cats recall | | 0.93 | |
+| dogs recall | | 0.93 | |
+| gap between classes | | 0.03 | |
+| cats recall drop vs previous | | 0.01 | |
+| dogs recall drop vs previous | | 0.01 | |
+| test set balance | | 0.9 | |
 
 ## Files
 | File | Size | SHA-256 |

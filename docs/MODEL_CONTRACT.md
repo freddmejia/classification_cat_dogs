@@ -34,7 +34,17 @@ This file defines the interface between the ML project and every app that uses t
 - **Training** (`CatDogClassifier TransferLearning.ipynb`):
   1. Stage 1 trains the head on a frozen backbone.
   2. Stage 2 fine-tunes the last 20 backbone layers with BatchNormalization kept frozen.
-- **Test set results (Keras model, 2,000 images):** accuracy **0.9435**, precision **0.9503**, recall **0.936** (dog is the positive class).
+- **Test set results (Keras model, 2,000 images):** accuracy **0.9435**, precision **0.9503**, recall **0.936** (dog is the positive class), from the training notebook's GPU run.
+- **Per-class results** (`ModelEvaluation.ipynb`, measured 2026-09-13 on CPU; one borderline dog image differs from the GPU run):
+
+  | Class | Support | Correct | Recall (per-class accuracy) | 95% range | Precision | F1 |
+  |---|---|---|---|---|---|---|
+  | cats | 1000 | 951 | **95.1%** | ±1.34 points | 0.9379 | 0.9444 |
+  | dogs | 1000 | 937 | **93.7%** | ±1.51 points | 0.9503 | 0.9436 |
+
+  - **Overall:** accuracy 0.9440, balanced accuracy 0.9440, macro F1 0.9440.
+  - **Confusion matrix:** 49 cats predicted as dogs, 63 dogs predicted as cats.
+  - **Gap between classes:** 1.4 points against a noise range of ±2.0 points, so it's **not significant: the classes are balanced.** Release gate: **PASS**.
 - **Not measured yet:** accuracy of the optimized model on the full test set.
 
 ## Input
@@ -94,3 +104,4 @@ Verified 2026-09-13 with the TensorFlow 2.21 TFLite interpreter. Each image was 
 | Contract | Release | Type | Summary |
 |---|---|---|---|
 | 1.0.0 | v1.0.0 | Initial | First published model: MobileNetV3Small two-stage transfer learning, test accuracy 0.9435 |
+| 1.0.0 (docs) | v1.0.0 | Documentation | Per-class metrics added: cats 95.1%, dogs 93.7%, gap 1.4 points (not significant), release gate PASS. The interface is unchanged, so no version bump. The `release/v1.0.0/` snapshot is not modified |
