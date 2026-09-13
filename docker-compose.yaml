@@ -1,0 +1,32 @@
+services:
+  notebook:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: cat-dogs-tf:latest
+    container_name: cat_dogs
+    env_file:
+      - .env
+    ports:
+      - "127.0.0.1:8888:8888"
+    environment:
+      JUPYTER_TOKEN: ${JUPYTER_TOKEN:-catdogs}
+      TF_CPP_MIN_LOG_LEVEL: "1"
+      TF_FORCE_GPU_ALLOW_GROWTH: "true"
+    volumes:
+      - ./:/workspace
+      - keras-cache:/home/mambauser/.keras
+      - nv-cache:/home/mambauser/.nv
+    working_dir: /workspace
+    shm_size: "2gb"
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: all
+              capabilities: [gpu]
+
+volumes:
+  keras-cache:
+  nv-cache:

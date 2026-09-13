@@ -1,0 +1,20 @@
+CLASSIFIER CAT DOG USING TRANSFER LEARNING WITH CUSTOM CNN
+https://huggingface.co/Kavindutharaka/cat_dog_classifier/blob/main/cat_dog_classifier.ipynb
+
+freddmejia
+apitoken> KGAT_512361be9bf9c6e499479b531bbd353e
+
+TORCH
+https://huggingface.co/ljt019/cat_dog_classifier_cnn
+
+FINETUNNING?
+https://huggingface.co/google/vit-base-patch16-224
+
+
+INTERESTING?
+https://www.kaggle.com/code/adinishad/pytorch-cats-and-dogs-classification
+https://huggingface.co/24f2004275/cat-dog-classifier
+
+
+https://www.deeplearning.ai/the-batch/issue-370
+

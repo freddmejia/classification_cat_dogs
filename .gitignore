@@ -1,0 +1,13 @@
+kaggle.json
+.env
+
+data/
+cats-and-dogs-for-classification/
+checkpoints/
+outputs/
+*.keras
+*.h5
+
+.venv/
+__pycache__/
+.ipynb_checkpoints/
