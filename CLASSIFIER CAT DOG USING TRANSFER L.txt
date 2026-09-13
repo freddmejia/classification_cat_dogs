@@ -18,3 +18,6 @@ https://huggingface.co/24f2004275/cat-dog-classifier
 
 https://www.deeplearning.ai/the-batch/issue-370
 
+
+
+se puede ofuscar el modelo en kmp?
