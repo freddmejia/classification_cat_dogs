@@ -21,3 +21,10 @@ https://www.deeplearning.ai/the-batch/issue-370
 
 
 se puede ofuscar el modelo en kmp?
+una auditoria para saber realmente que está pasando, predicción VIA API con .keras vs el .tflite y saber donde puede estar el problema?
+cuando hice zoom al dog esto funciono, sera de entrenar el modelo con rotaciones y zoom data augmentation?
+una feature de scanning plate para agregar automáticamente esto en las apps, nextpass, prism
+quizás el detectar que existe un objeto en la imagen pueda ayudar no, porque asi se centra en ese objeto y finalmente se puede pasar de objeto al modelo para saber si es un perro o gato?
+
+una app para detectar manchas en la piel, que es?
+una app para detectar enfermedades en el perro, como se siente, decaido?
