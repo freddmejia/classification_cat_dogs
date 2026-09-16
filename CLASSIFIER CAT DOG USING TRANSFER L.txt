@@ -28,3 +28,13 @@ quizás el detectar que existe un objeto en la imagen pueda ayudar no, porque as
 
 una app para detectar manchas en la piel, que es?
 una app para detectar enfermedades en el perro, como se siente, decaido?
+
+ha funcionado haciendo zoom falta probar en animales reales
+
+1. probar con todos los modelos de keras disponibles, con cuál va este mejor?, quizás saquemos mejores valores de métricas, matrix de confusion, f1, dice
+2. entrenar un modelo para obtener ocr, lo pasa a un formulario rápido el texto
+3. optimizar con r8, si no se puede ofuscar los ficheros, se puede proteger contra lectura?
+4. se puede firmar el file.tflite con mi cuenta?
+
+
+
