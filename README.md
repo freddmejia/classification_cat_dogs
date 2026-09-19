@@ -263,40 +263,6 @@ Overall accuracy was **94.35%**, balanced accuracy **94.35%**, and macro F1 appr
 
 These are historical baseline results, **not EfficientNetB0 results**. Run the current notebook to obtain its metrics. Comparisons should account for changes in training data, resolution and preprocessing. If the test results are used to choose a model repeatedly, use fresh held-out data for a final unbiased assessment.
 
-## Try inference without training
-
-The repository includes the original release's TFLite models and reference images in [release/v1.0.0](release/v1.0.0/). After starting the container, run this in a Jupyter cell:
-
-```python
-from pathlib import Path
-import cv2
-import numpy as np
-import tensorflow as tf
-
-release = Path("release/v1.0.0")
-interpreter = tf.lite.Interpreter(
-    model_path=str(release / "cat_dog_mobilenetv3.tflite")
-)
-interpreter.allocate_tensors()
-input_info = interpreter.get_input_details()[0]
-output_info = interpreter.get_output_details()[0]
-
-for filename in ["cat.jpg", "dog.png"]:
-    image = cv2.imread(str(release / filename))
-    image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
-    image = tf.image.resize(image, (128, 128)).numpy().astype(np.float32)
-    interpreter.set_tensor(input_info["index"], image[None, ...])
-    interpreter.invoke()
-    probability = float(interpreter.get_tensor(output_info["index"])[0, 0])
-    print(filename, "dog" if probability > 0.5 else "cat", probability)
-```
-
-Recorded reference dog probabilities are approximately **0.00225 for `cat.jpg`** and **0.99254 for `dog.png`** with the default release model. Two sample predictions check basic integration, not full accuracy. TensorFlow 2.21 still exposes `tf.lite.Interpreter` but may print a deprecation warning.
-
-For this release, the input is float32 RGB `[1, 128, 128, 3]` with raw 0-255 pixels, and the output is a single dog probability. Do not divide pixels by 255, apply sigmoid again, or use argmax on the single output. The optimized artifact uses dynamic-range quantization with float32 inputs and outputs. Follow the [model contract](docs/MODEL_CONTRACT.md) when integrating it into a separate mobile application.
-
-The current EfficientNetB0 model instead uses 224 x 224 inputs and its own saved `labels.json`. Its optional TFLite export uses the fine-tuned model; its `.keras` phase files can be loaded independently with `tf.keras.models.load_model(path, compile=False)`.
-
 ## Common checks before a run
 
 | Symptom | Check |
